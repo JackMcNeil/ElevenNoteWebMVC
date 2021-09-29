@@ -39,7 +39,7 @@ namespace ElevenNote.Services
             using (var ctx = new ApplicationDbContext())
             {
                 var query = ctx.Notes.Where(e => e.OwnerId == _userId)
-                    .Select(e => new NoteListItem { NoteId = e.NoteId, Title = e.Title, CreatedUtc = e.CreatedUtc });
+                    .Select(e => new NoteListItem { NoteId = e.NoteId, Title = e.Title, CreatedUtc = e.CreatedUtc, IsStarred = e.IsStarred });
 
                 return query.ToArray();
             }
@@ -70,6 +70,7 @@ namespace ElevenNote.Services
                 entity.Title = model.Title;
                 entity.Content = model.Content;
                 entity.ModifiedUtc = DateTimeOffset.UtcNow;
+                entity.IsStarred = model.IsStarred;
 
                 return ctx.SaveChanges() == 1;
             }
